@@ -152,7 +152,7 @@ export class NgTableComponent {
     this.tableChanged.emit({ sorting: this.configColumns });
   }
 
-  public getData(row: any, columnProperties: any, dontFormat?: false): string {
+  public getData(row: any, columnProperties: any, dontFormat?: any): string {
     let propertyName: string = columnProperties['name'];
     let value: any = propertyName.split('.').reduce((prev: any, curr: string) => prev[curr], row);
 

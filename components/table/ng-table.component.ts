@@ -56,7 +56,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
             </td>
             <td *ngIf="column.title === 'Actions'">
                 <div class="input-group-btn">
-                  <button [disabled]="row.is_disabled" class="actions-button btn {{link.mainClass}}" *ngFor="let link of column.links" title="{{ link.name }}"
+                  <button [disabled]="row.is_disabled" class="actions-button btn  btn-sm {{link.mainClass}}" *ngFor="let link of column.links" title="{{ link.name }}"
                     (click)="handleLinks(link.name, row, column)" [hidden]="checkIsAvailable(row, link)">
                     <i *ngIf="link.iconClass!=''" class="{{link.iconClass}}"></i>
                     <span *ngIf="link.iconClass==''">{{link.name}}</span>

@@ -11,13 +11,13 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
           <th *ngIf="config && config['multiSelect']"><input type="checkbox" [checked]="selectedRowIndexes.length == (rows.length - disabledRowIndexes.length)? 'checked': null" (change)="toggleSelect($event)"/></th>
 
           <ng-container *ngFor="let column of columns">
-              <th *ngIf="column.title != 'Actions'" [ngTableSorting]="config" [column]="column" 
+              <th [ngStyle]="{'width':column?.width}" [ngClass]="{'overflow':column?.overflow}" *ngIf="column.title != 'Actions'" [ngTableSorting]="config" [column]="column" 
               (sortChanged)="onChangeTable($event)" ngClass="{{column.className || ''}}">
                 {{column.title}}
                 <i *ngIf="config && column.sort !== false" class="pull-right fa"
                   [ngClass]="{'fa-sort-desc': column.sort === 'desc', 'fa-sort-asc': column.sort === 'asc', 'fa-sort': column.sort != 'desc' && column.sort != 'asc' }"></i>
               </th>
-              <th *ngIf="column.title === 'Actions'" ngClass="{{ column.className || '' }}">
+              <th [ngStyle]="{'width':column?.width}" [ngClass]="{'overflow':column?.overflow}" *ngIf="column.title === 'Actions'" ngClass="{{ column.className || '' }}">
                 {{ column.title }}
               </th>
           </ng-container>
@@ -28,7 +28,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
         <td *ngIf="config['multiSelect']"></td>
 
         <ng-container *ngFor="let column of columns">
-          <td *ngIf="column.title != 'Actions'"> 
+          <td *ngIf="column.title != 'Actions'"  [ngClass]="{'overflow':column?.overflow}" [ngStyle]="{'width':column?.width}"> 
              <input *ngIf="column.filtering && column.filtering.inputType == 'text'" placeholder="{{column.filtering.placeholder}}"
                    [ngTableFiltering]="column.filtering"
                    class="form-control"
@@ -42,7 +42,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
                 <option *ngFor="let obj of column.filtering.options" [value]="obj.id">{{obj.value}}</option>
             </select>
           </td>
-          <td *ngIf="column.title === 'Actions'">
+          <td *ngIf="column.title === 'Actions'" [ngClass]="{'overflow':column?.overflow}" [ngStyle]="{'width':column?.width}">
           </td>
         </ng-container>
       </tr>
@@ -50,13 +50,13 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
           <td *ngIf="config['multiSelect']"><input type="checkbox" [checked]="selectedRowIndexes.indexOf(i) >=0? 'checked': null" (change)="toggleSelect($event, i)" [disabled]="disabledRowIndexes.indexOf(i) >= 0"/></td>
 
           <ng-container *ngFor="let column of columns">
-            <td (click)="cellClick(row, column.name)" *ngIf="column.title != 'Actions' && !column.edit" [innerHtml]="sanitize(getData(row, column))"></td>
-            <td *ngIf="column.edit">
+            <td [ngStyle]="{'width':column?.width}" [ngClass]="{'overflow':column?.overflow}" (click)="cellClick(row, column.name)" *ngIf="column.title != 'Actions' && !column.edit" [innerHtml]="sanitize(getData(row, column))"></td>
+            <td [ngStyle]="{'width':column?.width}" *ngIf="column.edit">
                 <input (keyup)="valueChanged($event.target.value, column.name, i)" (change)="valueChanged($event.target.value, column.name, i)" [type]="column.type" [value]="getData(row, column, true)" />
             </td>
-            <td *ngIf="column.title === 'Actions'">
+            <td [ngStyle]="{'width':column?.width}" [ngClass]="{'overflow':column?.overflow}" *ngIf="column.title === 'Actions'">
                 <div class="input-group-btn">
-                  <button [disabled]="row.is_disabled" class="actions-button btn  btn-sm {{link.mainClass}}" *ngFor="let link of column.links" title="{{ link.name }}"
+                  <button [disabled]="row.is_disabled" class="actions-button btn-sm btn {{link.mainClass}}" *ngFor="let link of column.links" title="{{ link.name }}"
                     (click)="handleLinks(link.name, row, column)" [hidden]="checkIsAvailable(row, link)">
                     <i *ngIf="link.iconClass!=''" class="{{link.iconClass}}"></i>
                     <span *ngIf="link.iconClass==''">{{link.name}}</span>
